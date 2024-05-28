@@ -1,0 +1,20 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+
+- task: PowerShell@2
+  displayName: 'Update Workspaces from GIT'
+  inputs:
+    filePath: 'UpdateWorkspace.ps1'
+    arguments: '-TenantId "$(TenantId)" -RefreshToken "$(RefreshToken)"'
+    pwsh: true
+  env:
+    TenantId: $(TenantId)
+    ApplicationSecret: $(RefreshToken)
